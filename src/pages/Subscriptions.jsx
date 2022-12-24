@@ -33,7 +33,7 @@ export default function Subscriptions() {
             <Link to={`${plan.id}`} key={plan.id}>
               <Card>
                 <img src={plan.image} alt="img plan" />
-                <p>R$ {plan.price}</p>
+                <p>R$ {plan.price.replace(".", ",")}</p>
               </Card>
             </Link>
           ))}
