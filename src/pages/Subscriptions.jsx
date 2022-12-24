@@ -1,10 +1,8 @@
-import styled from "styled-components";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import drivenPlus from "../api/drivenPlus";
-import { useContext } from "react";
+import styled from "styled-components";
 import UserContext from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export default function Subscriptions() {
   const { user } = useContext(UserContext);
@@ -12,7 +10,7 @@ export default function Subscriptions() {
   const [plans, setPlans] = useState(undefined);
 
   useEffect(() => {
-    if (!user) {
+    if (!user.token) {
       navigate("/");
     }
     console.log(user.token);
@@ -32,10 +30,12 @@ export default function Subscriptions() {
       <Cards>
         {plans &&
           plans.map((plan) => (
-            <Card key={plan.id}>
-              <img src={plan.image} alt="img plan"/>
-              <p>R$ {plan.price}</p>
-            </Card>
+            <Link to={`${plan.id}`} key={plan.id}>
+              <Card>
+                <img src={plan.image} alt="img plan" />
+                <p>R$ {plan.price}</p>
+              </Card>
+            </Link>
           ))}
       </Cards>
     </SubscriptionsContainer>
@@ -43,6 +43,11 @@ export default function Subscriptions() {
 }
 
 const SubscriptionsContainer = styled.div`
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
   h1 {
     font-weight: 700;
     font-size: 32px;

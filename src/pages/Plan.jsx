@@ -1,13 +1,29 @@
-import styled from "styled-components";
-import plus from "../assets/plan_white.svg";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import arrow from "../assets/arrow.svg";
-import money from "../assets/money.svg";
+import drivenPlus from "../api/drivenPlus";
 import list from "../assets/list.svg";
-import { useState } from "react";
 import Modal from "../components/Modal";
+import money from "../assets/money.svg";
+import styled from "styled-components";
+import UserContext from "../contexts/UserContext";
 
 export default function Plan() {
+  const { user } = useContext(UserContext);
+  const { id } = useParams();
   const [modal, setModal] = useState(false);
+  const [plan, setPlan] = useState(undefined);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    drivenPlus
+      .listarPlano(id, user.token)
+      .then((res) => {
+        console.log(res.data);
+        setPlan(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [user]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -17,31 +33,46 @@ export default function Plan() {
   return (
     <>
       <SubscriptionsContainer>
-        <img src={arrow} alt="" />
-        <img src={plus} alt="" />
-        <h1>Driven Plus</h1>
-        <div>
-          <img src={list} alt="" />
-          <h2>Benefícios:</h2>
-        </div>
-        <ol>
-          <li>Brindes exclusivos </li>
-          <li>Materiais bônus de web</li>
-        </ol>
-        <div>
-          <img src={money} alt="" />
-          <h2>Benefícios:</h2>
-        </div>
-        <p>R$ 39,99 cobrados mensalmente</p>
-        <Form onSubmit={handleSubmit}>
-          <input type="text" placeholder="Nome impresso no cartão" />
-          <input type="text" placeholder="Digitos do cartão" />
-          <input type="text" placeholder="Código de segurança" />
-          <input type="text" placeholder="Validade" />
-          <button>Assinar</button>
-        </Form>
+        <img src={arrow} alt="" onClick={() => navigate(-1)} />
+        {plan && (
+          <>
+            <img src={plan.image} alt="" />
+            <h1>{plan.name}</h1>
+            <div>
+              <img src={list} alt="" />
+              <h2>Benefícios:</h2>
+            </div>
+            <ol>
+              {plan.perks.map((perk, i) =>
+                i !== 0 ? (
+                  <li key={perk.id}>{perk.title}</li>
+                ) : (
+                  <li key={perk.id}>Brindes exclusivos</li>
+                )
+              )}
+            </ol>
+            <div>
+              <img src={money} alt="" />
+              <h2>Benefícios:</h2>
+            </div>
+            <p>R$ {plan.price.replace(".", ",")} cobrados mensalmente</p>
+            <Form onSubmit={handleSubmit}>
+              <input type="text" placeholder="Nome impresso no cartão" />
+              <input type="text" placeholder="Digitos do cartão" />
+              <input type="text" placeholder="Código de segurança" />
+              <input type="text" placeholder="Validade" />
+              <button>Assinar</button>
+            </Form>
+          </>
+        )}
       </SubscriptionsContainer>
-      {modal && <Modal setModal={setModal} />}
+      {modal && (
+        <Modal
+          setModal={setModal}
+          planName={plan.name}
+          planPrice={plan.price.replace(".", ",")}
+        />
+      )}
     </>
   );
 }

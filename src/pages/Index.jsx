@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import GlobalStyle from "../styles/GlobalStyle";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Login";
-import Signup from "./Signup";
-import Subscriptions from "./Subscriptions";
+import { useState } from "react";
+import GlobalStyle from "../styles/GlobalStyle";
 import Home from "./Home";
+import Login from "./Login";
 import Plan from "./Plan";
+import Signup from "./Signup";
+import styled from "styled-components";
+import Subscriptions from "./Subscriptions";
 import Update from "./Update";
 import User from "./User";
 import UserContext from "../contexts/UserContext";
-import { useState } from "react";
 
 export default function Index() {
   const [user, setUser] = useState(undefined);
@@ -23,7 +23,7 @@ export default function Index() {
               <Route path="/" element={<Login />} />
               <Route path="/sign-up" element={<Signup />} />
               <Route path="/subscriptions" element={<Subscriptions />} />
-              <Route path="/subscriptions/plan" element={<Plan />} />
+              <Route path="/subscriptions/:id" element={<Plan />} />
               <Route path="/home" element={<Home />} />
               <Route path="/update" element={<Update />} />
               <Route path="/user" element={<User />} />

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import close from "../assets/close.svg";
 
-export default function Modal({setModal}) {
+export default function Modal({setModal, planPrice, planName}) {
   return (
     <ModalContainer>
       <img src={close} alt="" onClick={() => setModal(false)} />
       <Popup>
-        <p>Tem certeza que deseja assinar o plano Driven Plus (R$ 39,99)?</p>
+        <p>Tem certeza que deseja assinar o plano {planName} (R$ {planPrice})?</p>
         <div>
           <button onClick={() => setModal(false)}>Não</button>
           <button onClick={() => setModal(false)}>SIM</button>
