@@ -1,15 +1,45 @@
 import styled from "styled-components";
 import close from "../assets/close.svg";
+import drivenPlus from "../api/drivenPlus";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
-export default function Modal({setModal, planPrice, planName}) {
+export default function Modal({
+  setModal,
+  planPrice,
+  planName,
+  form,
+  membershipId,
+}) {
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  function assinarPlano() {
+    const body = {
+      ...form,
+      securityNumber: Number(form.securityNumber),
+      membershipId: Number(membershipId),
+    };
+    drivenPlus
+      .assinarPlano(body, user.token)
+      .then((res) => {
+        console.log("plano assinado! ", res.data);
+        setUser({ ...user, membership: res.data.membership });
+        navigate("/home");
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <ModalContainer>
       <img src={close} alt="" onClick={() => setModal(false)} />
       <Popup>
-        <p>Tem certeza que deseja assinar o plano {planName} (R$ {planPrice})?</p>
+        <p>
+          Tem certeza que deseja assinar o plano {planName} (R$ {planPrice})?
+        </p>
         <div>
           <button onClick={() => setModal(false)}>Não</button>
-          <button onClick={() => setModal(false)}>SIM</button>
+          <button onClick={assinarPlano}>SIM</button>
         </div>
       </Popup>
     </ModalContainer>

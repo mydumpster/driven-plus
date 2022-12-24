@@ -14,6 +14,12 @@ export default function Plan() {
   const [modal, setModal] = useState(false);
   const [plan, setPlan] = useState(undefined);
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    cardName: "",
+    cardNumber: "",
+    securityNumber: "",
+    expirationDate: "",
+  });
 
   useEffect(() => {
     drivenPlus
@@ -24,6 +30,13 @@ export default function Plan() {
       })
       .catch((err) => console.log(err));
   }, [user]);
+
+  function handleForm(event) {
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value,
+    });
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -57,10 +70,10 @@ export default function Plan() {
             </div>
             <p>R$ {plan.price.replace(".", ",")} cobrados mensalmente</p>
             <Form onSubmit={handleSubmit}>
-              <input type="text" placeholder="Nome impresso no cartão" />
-              <input type="text" placeholder="Digitos do cartão" />
-              <input type="text" placeholder="Código de segurança" />
-              <input type="text" placeholder="Validade" />
+              <input name="cardName" onChange={handleForm} type="text" placeholder="Nome impresso no cartão" required/>
+              <input name="cardNumber" onChange={handleForm} type="text" placeholder="Digitos do cartão" required/>
+              <input name="securityNumber" onChange={handleForm} type="text" placeholder="Código de segurança" required/>
+              <input name="expirationDate" onChange={handleForm} type="text" placeholder="Validade" required/>
               <button>Assinar</button>
             </Form>
           </>
@@ -68,6 +81,9 @@ export default function Plan() {
       </SubscriptionsContainer>
       {modal && (
         <Modal
+          token={user.token}
+          membershipId={id}
+          form={form}
           setModal={setModal}
           planName={plan.name}
           planPrice={plan.price.replace(".", ",")}

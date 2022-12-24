@@ -1,23 +1,21 @@
 import styled from "styled-components";
-import plus from "../assets/plan_white.svg";
-import userico from "../assets/user.svg";
+import usericon from "../assets/usericon.svg";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
 export default function Home() {
   const { user } = useContext(UserContext);
-  console.log(user);
+  console.log(user.membership.perks);
   return (
     <HomeContainer>
       <TopContainer>
-        <img src={plus} alt="img" />
-        <img src={userico} alt="user" />
+        <img src={user.membership.image} alt="img" />
+        <img src={usericon} alt="user" />
       </TopContainer>
-      <h1>Olá, fulano</h1>
+      <h1>Olá, {user.name}</h1>
       <ButtonsContainer>
         <TopButtons>
-          <button>Solicitar brindes</button>
-          <button>Materiais bônus de web</button>
+          {user.membership.perks.map(perk => <button key={perk.id}>{perk.title}</button>)}
         </TopButtons>
         <BotButtons>
           <button>Mudar Plano</button>
@@ -91,7 +89,7 @@ const BotButtons = styled.div`
   flex-direction: column;
   gap: 8px;
   button:last-child {
-    background-color:#FF4747
+    background-color: #ff4747;
   }
   button:last-child:active {
     background-color: #f82b2b;
