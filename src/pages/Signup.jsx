@@ -2,8 +2,10 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import drivenPlus from "../api/drivenPlus";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     cpf: "",
@@ -13,9 +15,15 @@ export default function Signup() {
 
   function login(event) {
     event.preventDefault();
-    drivenPlus.fazerCadastro(form)
-    .then((response) => {console.log(response.data)})
-    .catch((error) => {window.alert(error.response.data.message)});
+    drivenPlus
+      .fazerCadastro(form)
+      .then((response) => {
+        console.log(response.data);
+        navigate("/");
+      })
+      .catch((error) => {
+        window.alert(error.response.data.message);
+      });
   }
 
   function handleForm(event) {
@@ -124,11 +132,11 @@ const SignupContainer = styled.div`
   }
 
   a {
-      color: #fff;
-      text-decoration-line: underline;
-    }
+    color: #fff;
+    text-decoration-line: underline;
+  }
 
-    @media (min-width: 500px) {
-      width: 50%;
-    }
+  @media (min-width: 500px) {
+    width: 50%;
+  }
 `;

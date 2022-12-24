@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import plus from "../assets/plan_white.svg";
-import user from "../assets/user.svg";
+import userico from "../assets/user.svg";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 export default function Home() {
+  const { user } = useContext(UserContext);
+  console.log(user);
   return (
     <HomeContainer>
       <TopContainer>
         <img src={plus} alt="img" />
-        <img src={user} alt="user" />
+        <img src={userico} alt="user" />
       </TopContainer>
       <h1>Olá, fulano</h1>
       <ButtonsContainer>

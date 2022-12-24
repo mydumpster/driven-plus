@@ -3,16 +3,32 @@ import logo from "../assets/logo.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import drivenPlus from "../api/drivenPlus";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 export default function Login() {
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function login(event) {
     event.preventDefault();
-    drivenPlus.fazerLogin({ email, password })
-    .then((response) => {console.log(response.data)})
-    .catch((error) => {window.alert(error.response.data.message)});
+    drivenPlus
+      .fazerLogin({ email, password })
+      .then((response) => {
+        console.log(response.data);
+        setUser(response.data);
+        if (response.data.membership !== null) {
+          navigate("/home");
+        } else {
+          navigate("/subscriptions");
+        }
+      })
+      .catch((error) => {
+        window.alert(error.response.data.message);
+      });
   }
 
   return (
