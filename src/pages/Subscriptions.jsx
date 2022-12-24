@@ -1,25 +1,42 @@
 import styled from "styled-components";
-import plus from "../assets/plan_white.svg";
-import gold from "../assets/plan_yellow.svg";
-import platinum from "../assets/plan_green.svg";
+import { useEffect } from "react";
+import drivenPlus from "../api/drivenPlus";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Subscriptions() {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [plans, setPlans] = useState(undefined);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+    console.log(user.token);
+    drivenPlus
+      .listarPlanos(user.token)
+      .then((response) => {
+        setPlans(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <SubscriptionsContainer>
       <h1>Escolha seu Plano</h1>
       <Cards>
-        <Card>
-          <img src={plus} alt="" />
-          <p>R$ 39,99</p>
-        </Card>
-        <Card>
-          <img src={gold} alt="" />
-          <p>R$ 69,99</p>
-        </Card>
-        <Card>
-          <img src={platinum} alt="" />
-          <p>R$ 99,99</p>
-        </Card>
+        {plans &&
+          plans.map((plan) => (
+            <Card key={plan.id}>
+              <img src={plan.image} alt="img plan"/>
+              <p>R$ {plan.price}</p>
+            </Card>
+          ))}
       </Cards>
     </SubscriptionsContainer>
   );
