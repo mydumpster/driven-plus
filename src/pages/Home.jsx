@@ -2,10 +2,12 @@ import styled from "styled-components";
 import usericon from "../assets/usericon.svg";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import drivenPlus from "../api/drivenPlus";
 
 export default function Home() {
   const { user } = useContext(UserContext);
-  console.log(user.membership.perks);
+  const navigate = useNavigate();
   return (
     <HomeContainer>
       <TopContainer>
@@ -15,11 +17,26 @@ export default function Home() {
       <h1>Olá, {user.name}</h1>
       <ButtonsContainer>
         <TopButtons>
-          {user.membership.perks.map(perk => <button key={perk.id}>{perk.title}</button>)}
+          {user.membership.perks.map((perk) => (
+            <button key={perk.id}>{perk.title}</button>
+          ))}
         </TopButtons>
         <BotButtons>
-          <button>Mudar Plano</button>
-          <button>Cancelar Plano</button>
+          <button onClick={() => navigate("/subscriptions")}>
+            Mudar Plano
+          </button>
+          <button
+            onClick={() =>
+              drivenPlus
+                .cancelarPlano(user.token)
+                .then((_res) => navigate("/subscriptions"))
+                .catch((_err) =>
+                  console.log("Não foi possível cancelar o plano")
+                )
+            }
+          >
+            Cancelar Plano
+          </button>
         </BotButtons>
       </ButtonsContainer>
     </HomeContainer>
