@@ -27,7 +27,10 @@ export default function Modal({
         setUser({ ...user, membership: res.data.membership });
         navigate("/home");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert("Não foi possível processar o seu pedido.\nVerifique seus dados e tente novamente!")
+        setModal(false)
+      });
   }
 
   return (
@@ -91,7 +94,7 @@ const Popup = styled.div`
       font-size: 14px;
       line-height: 16px;
       color: #fff;
-      &:active {
+      :active {
         background-color: #fb2d7f;
         font-size: 16px;
         font-weight: 700;
@@ -99,7 +102,7 @@ const Popup = styled.div`
     }
     button:first-child {
       background-color: #cecece;
-      &:active {
+      :active {
         background-color: #aaa9a9;
         font-size: 16px;
         font-weight: 700;

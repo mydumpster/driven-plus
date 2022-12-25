@@ -19,15 +19,15 @@ export default function Update() {
   function handleSubmit(e) {
     e.preventDefault();
     const body = {
-      ...form, 
+      ...form,
+    };
+    if (body.newPassword === "") {
+      delete body.newPassword;
     }
-    if(body.newPassword === ""){
-      delete body.newPassword
-    }
-    drivenPlus.alterarUsuario(body, user.token)
-    .then(__res => navigate(`/users/${user.id}`)
-    )
-    .catch(err => alert(err.response.data.message))
+    drivenPlus
+      .alterarUsuario(body, user.token)
+      .then((__res) => navigate(`/users/${user.id}`))
+      .catch((err) => alert(err.response.data.message));
   }
 
   function handleForm(event) {
@@ -39,7 +39,7 @@ export default function Update() {
 
   return (
     <UpdateContainer>
-      <img src={arrow} alt="" onClick={() => navigate(`/users/${user.id}`)}/>
+      <img src={arrow} alt="" onClick={() => navigate(`/users/${user.id}`)} />
       <Form onSubmit={handleSubmit}>
         <input
           name="name"
@@ -108,8 +108,11 @@ const Form = styled.form`
       line-height: 16px;
       color: #7e7e7e;
     }
-    :disabled{
-      background-color:#EBEBEB;
+    :disabled {
+      background-color: #ebebeb;
+    }
+    :focus {
+      outline: 2px solid #ff47917f;
     }
   }
 
