@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import drivenPlus from "../api/drivenPlus";
 import styled from "styled-components";
+import masks from "../utils/masks";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -25,10 +26,16 @@ export default function Signup() {
       });
   }
 
+  const fieldMasks = {
+    cpf: masks.cpf,
+  };
+
   function handleForm(event) {
     setForm({
       ...form,
-      [event.target.name]: event.target.value,
+      [event.target.name]: fieldMasks[event.target.name]
+        ? fieldMasks[event.target.name](event.target.value)
+        : event.target.value,
     });
   }
 
@@ -49,6 +56,7 @@ export default function Signup() {
           placeholder="CPF"
           type="text"
           value={form.cpf}
+          minLength="14"
           required
         />
         <input
@@ -136,7 +144,7 @@ const SignupContainer = styled.div`
     text-decoration-line: underline;
   }
 
-  p{ 
+  p {
     text-align: center;
   }
 `;
