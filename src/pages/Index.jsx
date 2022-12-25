@@ -7,8 +7,8 @@ import Plan from "./Plan";
 import Signup from "./Signup";
 import styled from "styled-components";
 import Subscriptions from "./Subscriptions";
+import Users from "./Users";
 import Update from "./Update";
-import User from "./User";
 import UserContext from "../contexts/UserContext";
 
 export default function Index() {
@@ -25,8 +25,8 @@ export default function Index() {
               <Route path="/subscriptions" element={<Subscriptions />} />
               <Route path="/subscriptions/:id" element={<Plan />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/update" element={<Update />} />
-              <Route path="/user" element={<User />} />
+              <Route path="/users/:id" element={<Users />} />
+              <Route path="/users/:id/update" element={<Update />} />
             </Routes>
           </BrowserRouter>
         </UserContext.Provider>

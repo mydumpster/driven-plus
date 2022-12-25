@@ -13,7 +13,9 @@ export default function Update() {
         <input type="text" placeholder="Fulano" />
         <input type="text" placeholder="111.111.111-11" />
         <input type="text" placeholder="fulano@email.com" />
-        <button>ATUALIZAR</button>
+        <input type="text" placeholder="Senha atual" />
+        <input type="text" placeholder="Nova senha" />
+        <button>SALVAR</button>
       </Form>
     </UpdateContainer>
   );
@@ -26,7 +28,7 @@ const UpdateContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 206px;
+  padding-top: 138px;
   img {
     position: absolute;
     top: 22px;

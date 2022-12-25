@@ -1,34 +1,32 @@
 import styled from "styled-components";
 import arrow from "../assets/arrow.svg";
 
-export default function User() {
+export default function Users() {
   function handleSubmit(e) {
     e.preventDefault();
   }
 
   return (
-    <UserContainer>
+    <UsersContainer>
       <img src={arrow} alt="" />
       <Form onSubmit={handleSubmit}>
         <input type="text" placeholder="Fulano" />
         <input type="text" placeholder="111.111.111-11" />
         <input type="text" placeholder="fulano@email.com" />
-        <input type="text" placeholder="Senha atual" />
-        <input type="text" placeholder="Nova senha" />
-        <button>SALVAR</button>
+        <button>ATUALIZAR</button>
       </Form>
-    </UserContainer>
+    </UsersContainer>
   );
 }
 
-const UserContainer = styled.div`
+const UsersContainer = styled.div`
   max-width: 375px;
   width: 79%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 138px;
+  padding-top: 206px;
   img {
     position: absolute;
     top: 22px;
