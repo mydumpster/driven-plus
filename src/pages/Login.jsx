@@ -60,7 +60,8 @@ const LoginContainer = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 79.73%;
+  max-width: 500px;
+  width: 90%;
   img {
     margin-bottom: 100px;
     width: 100%;
@@ -110,8 +111,9 @@ const LoginContainer = styled.div`
       font-weight: 700;
     }
   }
-  @media (min-width: 500px) {
-    width: 50%;
+
+  p{ 
+    text-align: center;
   }
 `;
 

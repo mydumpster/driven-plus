@@ -26,8 +26,8 @@ export default function Users() {
 }
 
 const UsersContainer = styled.div`
-  max-width: 375px;
-  width: 79%;
+  max-width: 500px;
+  width: 90%;
   height: 100vh;
   display: flex;
   flex-direction: column;

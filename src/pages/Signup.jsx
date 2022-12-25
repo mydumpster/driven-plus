@@ -77,16 +77,17 @@ export default function Signup() {
 }
 
 const SignupContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-width: 500px;
+  width: 90%;
   form {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 80%;
+    width: 100%;
     input {
       width: 100%;
       height: 52px;
@@ -135,7 +136,7 @@ const SignupContainer = styled.div`
     text-decoration-line: underline;
   }
 
-  @media (min-width: 500px) {
-    width: 50%;
+  p{ 
+    text-align: center;
   }
 `;

@@ -51,7 +51,8 @@ export default function Home() {
 }
 
 const HomeContainer = styled.div`
-  width: 79.73%;
+  max-width: 500px;
+  width: 90%;
   height: 100%;
   h1 {
     font-weight: 700;
