@@ -12,7 +12,11 @@ export default function Home() {
     <HomeContainer>
       <TopContainer>
         <img src={user.membership.image} alt="img" />
-        <img src={usericon} alt="user" />
+        <img
+          src={usericon}
+          alt="user"
+          onClick={() => navigate(`/users/${user.id}`)}
+        />
       </TopContainer>
       <h1>Olá, {user.name}</h1>
       <ButtonsContainer>
