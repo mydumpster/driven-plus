@@ -1,20 +1,67 @@
 import styled from "styled-components";
 import arrow from "../assets/arrow.svg";
+import drivenPlus from "../api/drivenPlus";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 export default function Update() {
+  const { user } = useContext(UserContext);
+  const [form, setForm] = useState({
+    name: "",
+    cpf: "",
+    email: "",
+    password: "",
+    newPassword: "",
+  });
+
   function handleSubmit(e) {
     e.preventDefault();
+    drivenPlus.alterarUsuario({}, user.token);
+  }
+
+  function handleForm(event) {
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value,
+    });
+    console.log(form);
   }
 
   return (
     <UpdateContainer>
       <img src={arrow} alt="" />
       <Form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Fulano" />
-        <input type="text" placeholder="111.111.111-11" />
-        <input type="text" placeholder="fulano@email.com" />
-        <input type="text" placeholder="Senha atual" />
-        <input type="text" placeholder="Nova senha" />
+        <input
+          name="name"
+          type="text"
+          onChange={handleForm}
+          placeholder="Fulano"
+        />
+        <input
+          name="cpf"
+          type="text"
+          onChange={handleForm}
+          placeholder="111.111.111-11"
+          disabled
+        />
+        <input
+          name="email"
+          type="text"
+          onChange={handleForm}
+          placeholder="fulano@email.com"
+        />
+        <input
+          name="password"
+          type="text"
+          onChange={handleForm}
+          placeholder="Senha atual"
+        />
+        <input
+          name="newPassword"
+          type="text"
+          onChange={handleForm}
+          placeholder="Nova senha"
+        />
         <button>SALVAR</button>
       </Form>
     </UpdateContainer>
