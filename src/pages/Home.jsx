@@ -8,6 +8,7 @@ import drivenPlus from "../api/drivenPlus";
 export default function Home() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  console.log(user);
   return (
     <HomeContainer>
       <TopContainer>
@@ -22,7 +23,9 @@ export default function Home() {
       <ButtonsContainer>
         <TopButtons>
           {user.membership.perks.map((perk) => (
-            <button key={perk.id}>{perk.title}</button>
+            <a href={perk.link} target="_blank">
+              <button key={perk.id}>{perk.title}</button>
+            </a>
           ))}
         </TopButtons>
         <BotButtons>
