@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 import money from "../assets/money.svg";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext";
+import masks from "../utils/masks";
 
 export default function Plan() {
   const { user } = useContext(UserContext);
@@ -31,10 +32,16 @@ export default function Plan() {
       .catch((err) => console.log(err));
   }, [user]);
 
+  const fieldMasks = {
+    expirationDate: masks.expirationDate,
+  };
+
   function handleForm(event) {
     setForm({
       ...form,
-      [event.target.name]: event.target.value,
+      [event.target.name]: fieldMasks[event.target.name]
+        ? fieldMasks[event.target.name](event.target.value)
+        : event.target.value,
     });
   }
 
@@ -70,10 +77,39 @@ export default function Plan() {
             </div>
             <p>R$ {plan.price.replace(".", ",")} cobrados mensalmente</p>
             <Form onSubmit={handleSubmit}>
-              <input name="cardName" onChange={handleForm} type="text" placeholder="Nome impresso no cartão" required/>
-              <input name="cardNumber" onChange={handleForm} type="text" placeholder="Digitos do cartão" required/>
-              <input name="securityNumber" onChange={handleForm} type="text" placeholder="Código de segurança" required/>
-              <input name="expirationDate" onChange={handleForm} type="text" placeholder="Validade" required/>
+              <input
+                name="cardName"
+                onChange={handleForm}
+                type="text"
+                placeholder="Nome impresso no cartão"
+                value={form.cardName}
+                required
+              />
+              <input
+                name="cardNumber"
+                onChange={handleForm}
+                type="text"
+                placeholder="Digitos do cartão"
+                value={form.cardNumber}
+                required
+              />
+              <input
+                name="securityNumber"
+                onChange={handleForm}
+                type="text"
+                placeholder="Código de segurança"
+                value={form.securityNumber}
+                required
+              />
+              <input
+                name="expirationDate"
+                onChange={handleForm}
+                type="text"
+                placeholder="Validade"
+                value={form.expirationDate}
+                minLength="5"
+                required
+              />
               <button>Assinar</button>
             </Form>
           </>
