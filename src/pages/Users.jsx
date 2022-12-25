@@ -1,18 +1,24 @@
 import styled from "styled-components";
 import arrow from "../assets/arrow.svg";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Users() {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
+    navigate("update")
   }
 
   return (
     <UsersContainer>
-      <img src={arrow} alt="" />
+      <img src={arrow} alt="" onClick={() => navigate("/home")}/>
       <Form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Fulano" />
-        <input type="text" placeholder="111.111.111-11" />
-        <input type="text" placeholder="fulano@email.com" />
+        <input type="text" placeholder="Fulano" value={user.name} disabled/>
+        <input type="text" placeholder="111.111.111-11" value={user.cpf} disabled/>
+        <input type="text" placeholder="fulano@email.com" value={user.email} disabled/>
         <button>ATUALIZAR</button>
       </Form>
     </UsersContainer>
@@ -46,6 +52,9 @@ const Form = styled.form`
       font-size: 14px;
       line-height: 16px;
       color: #7e7e7e;
+    }
+    :disabled{
+      background-color:#EBEBEB;
     }
   }
 

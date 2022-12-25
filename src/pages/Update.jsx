@@ -1,22 +1,33 @@
 import styled from "styled-components";
 import arrow from "../assets/arrow.svg";
 import drivenPlus from "../api/drivenPlus";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Update() {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [form, setForm] = useState({
-    name: "",
-    cpf: "",
-    email: "",
-    password: "",
+    name: user.name,
+    cpf: user.cpf,
+    email: user.email,
+    currentPassword: "",
     newPassword: "",
   });
 
   function handleSubmit(e) {
     e.preventDefault();
-    drivenPlus.alterarUsuario({}, user.token);
+    const body = {
+      ...form, 
+    }
+    if(body.newPassword === ""){
+      delete body.newPassword
+    }
+    drivenPlus.alterarUsuario(body, user.token)
+    .then(__res => navigate(`/users/${user.id}`)
+    )
+    .catch(err => alert(err.response.data.message))
   }
 
   function handleForm(event) {
@@ -24,16 +35,16 @@ export default function Update() {
       ...form,
       [event.target.name]: event.target.value,
     });
-    console.log(form);
   }
 
   return (
     <UpdateContainer>
-      <img src={arrow} alt="" />
+      <img src={arrow} alt="" onClick={() => navigate(`/users/${user.id}`)}/>
       <Form onSubmit={handleSubmit}>
         <input
           name="name"
           type="text"
+          value={form.name}
           onChange={handleForm}
           placeholder="Fulano"
         />
@@ -41,24 +52,25 @@ export default function Update() {
           name="cpf"
           type="text"
           onChange={handleForm}
-          placeholder="111.111.111-11"
+          value={form.cpf}
           disabled
         />
         <input
           name="email"
           type="text"
+          value={form.email}
           onChange={handleForm}
           placeholder="fulano@email.com"
         />
         <input
-          name="password"
-          type="text"
+          name="currentPassword"
+          type="password"
           onChange={handleForm}
           placeholder="Senha atual"
         />
         <input
           name="newPassword"
-          type="text"
+          type="password"
           onChange={handleForm}
           placeholder="Nova senha"
         />
@@ -95,6 +107,9 @@ const Form = styled.form`
       font-size: 14px;
       line-height: 16px;
       color: #7e7e7e;
+    }
+    :disabled{
+      background-color:#EBEBEB;
     }
   }
 
